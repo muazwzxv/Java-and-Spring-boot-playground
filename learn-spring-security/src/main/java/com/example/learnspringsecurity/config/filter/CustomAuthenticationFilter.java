@@ -56,6 +56,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Algorithm algo = Util.generateAuthAlgorithm();
 
         String accessToken = JWT.create()
+                // we set the subject to the username of the profile
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
                 .withIssuer(request.getRequestURL().toString())

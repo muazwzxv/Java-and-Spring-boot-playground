@@ -2,6 +2,7 @@ package com.example.learnspringsecurity.config;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.learnspringsecurity.config.filter.CustomAuthenticationFilter;
+import com.example.learnspringsecurity.config.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration @EnableWebSecurity @RequiredArgsConstructor
@@ -42,19 +44,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/login/**").permitAll();
 
         // Setting permissions for guarded routes
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/users/**").hasAuthority("user");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/users/**").hasAuthority("admin");
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users/save/**").hasAuthority("admin");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-    public Algorithm generateAlgorithm() {
-        return Algorithm.HMAC256("secret".getBytes());
-    }
-
 }
