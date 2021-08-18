@@ -1,5 +1,6 @@
 package com.example.learnspringsecurity.config;
 
+import com.auth0.jwt.algorithms.Algorithm;
 import com.example.learnspringsecurity.config.filter.CustomAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -51,4 +52,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    public Algorithm generateAlgorithm() {
+        return Algorithm.HMAC256("secret".getBytes());
+    }
+
 }
