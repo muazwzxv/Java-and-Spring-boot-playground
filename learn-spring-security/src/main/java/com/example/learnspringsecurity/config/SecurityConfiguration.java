@@ -41,7 +41,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         // Permit path without auth :- to permit all for a specific endpoints
         // Routes such as "/login" is being handled by Spring boot & Spring Security
-        http.authorizeRequests().antMatchers("/api/login/**").permitAll();
+        http.authorizeRequests()
+                .antMatchers(
+                        "/api/login/**",
+                        "/api/token/refresh/**"
+                )
+                .permitAll();
 
         // Setting permissions for guarded routes
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/users/**").hasAuthority("admin");

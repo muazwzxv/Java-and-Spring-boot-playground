@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
 
-       return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), authorities);
+       return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
     public User addUser(User user) {
@@ -51,6 +51,10 @@ public class UserService implements UserDetailsService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
+    }
+
+    public User getUser(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public Role addRole(Role role) {

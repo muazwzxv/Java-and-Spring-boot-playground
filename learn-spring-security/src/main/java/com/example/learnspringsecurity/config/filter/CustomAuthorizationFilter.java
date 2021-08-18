@@ -32,7 +32,11 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
-        if (req.getServletPath().equals("/api/login")) {
+        if (
+                req.getServletPath().equals("/api/login") ||
+                req.getServletPath().equals("/api/token/refresh")
+        ) {
+            // Proceed context execution
             filterChain.doFilter(req, res);
 
             // ffs this line is important
@@ -65,7 +69,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 // inform Spring regarding the current user and let them access any resources
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 
-                // if it reaches here, just let the filter execution continues
+                // Proceed context execution
                 filterChain.doFilter(req, res);
                 return;
             } catch (Exception e) {

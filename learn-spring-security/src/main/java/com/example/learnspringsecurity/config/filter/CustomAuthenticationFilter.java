@@ -55,6 +55,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         User user = (User) auth.getPrincipal();
         Algorithm algo = Util.generateAuthAlgorithm();
 
+        log.info("username in auth filter: {} ",user.getUsername());
         String accessToken = JWT.create()
                 // we set the subject to the username of the profile
                 .withSubject(user.getUsername())
