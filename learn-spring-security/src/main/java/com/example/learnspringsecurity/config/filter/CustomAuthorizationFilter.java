@@ -53,9 +53,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 JWTVerifier verifier = JWT.require(algo).build();
                 DecodedJWT decoded = verifier.verify(token);
 
-                // subject returns the username, as we set the subject to
-                // username when generating the token
-                String username = decoded.getSubject();
+                // subject returns the email, as we set the subject to
+                // email when generating the token
+                String email = decoded.getSubject();
                 String [] roles = decoded.getClaim("roles").asArray(String.class);
 
                 // Conversion from string array to any class that extends GrantedAuthority
@@ -64,15 +64,17 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 stream(roles).forEach(role -> authorities.add(new SimpleGrantedAuthority(role)));
 
                 // Generate the token to be set in SecurityContentHolder Authentication
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, null, authorities);
 
                 // inform Spring regarding the current user and let them access any resources
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 
                 // Proceed context execution
                 filterChain.doFilter(req, res);
+
                 return;
             } catch (Exception e) {
+
                 log.error("Error logging in: {} ", e.getMessage());
                 res.setHeader("error", e.getMessage());
                 res.setStatus(FORBIDDEN.value());
@@ -86,6 +88,5 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
         // if it reaches here, just let the filter execution continues
         filterChain.doFilter(req, res);
-        return;
     }
 }

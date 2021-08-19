@@ -115,7 +115,6 @@ public class UserController {
         throw new RuntimeException("Refresh token is missing");
     }
 
-
 //    @PostMapping("/record")
 //    public void signUp(@RequestBody User user)  {
 //       user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

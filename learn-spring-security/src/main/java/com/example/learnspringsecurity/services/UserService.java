@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
 
-       return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+       return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
     public User addUser(User user) {
