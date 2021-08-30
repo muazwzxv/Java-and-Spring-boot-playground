@@ -97,11 +97,15 @@ public class UserController {
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", access_token);
                 tokens.put("refresh_token", refresh_token);
+
+                // Response
                 res.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(res.getOutputStream(), tokens);
 
             } catch (Exception e) {
                 log.error("Error logging in: {} ", e.getMessage());
+
+                // Response
                 res.setHeader("error", e.getMessage());
                 res.setStatus(FORBIDDEN.value());
                 Map<String, String> err = new HashMap<>();
