@@ -43,8 +43,4 @@ public class Journal {
 
 	public void load(String filename) {
 	}
-
-	public void load(URL url) {
-	}
-
 }
