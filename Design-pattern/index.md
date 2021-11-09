@@ -22,3 +22,11 @@
 - Understanding of Generics and Interfaces in object oriented programming is important
 - **_Open for extension means_** - Open to be inherit or implemented (class/interface)
 - **_Close for modification_** - Modifying the core logic of the code
+
+### Liskov Subtitution Principle
+
+- Able to subtitute subclass for a base class without anything breaking
+
+### Interface Segregation Principle
+
+- Split interface into smaller interfaces
